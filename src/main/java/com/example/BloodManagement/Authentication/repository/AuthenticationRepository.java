@@ -1,7 +1,7 @@
 
-package com.example.BloodManagement.authentication.repository;
+package com.example.BloodManagement.Authentication.repository;
 
-import com.example.BloodManagement.authentication.entity.Authentication;
+import com.example.BloodManagement.Authentication.entity.Authentication;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

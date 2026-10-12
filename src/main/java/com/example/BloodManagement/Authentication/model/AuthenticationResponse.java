@@ -1,5 +1,5 @@
 
-package com.example.BloodManagement.authentication.model;
+package com.example.BloodManagement.Authentication.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,9 +1,9 @@
 
-package com.example.BloodManagement.authentication.service;
+package com.example.BloodManagement.Authentication.service;
 
-import com.example.BloodManagement.authentication.entity.Authentication;
-import com.example.BloodManagement.authentication.model.*;
-import com.example.BloodManagement.authentication.repository.AuthenticationRepository;
+import com.example.BloodManagement.Authentication.entity.Authentication;
+import com.example.BloodManagement.Authentication.model.*;
+import com.example.BloodManagement.Authentication.repository.AuthenticationRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;

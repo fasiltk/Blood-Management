@@ -1,8 +1,8 @@
 
-package com.example.BloodManagement.authentication.controller;
+package com.example.BloodManagement.Authentication.controller;
 
-import com.example.BloodManagement.authentication.model.*;
-import com.example.BloodManagement.authentication.service.AuthenticationService;
+import com.example.BloodManagement.Authentication.model.*;
+import com.example.BloodManagement.Authentication.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

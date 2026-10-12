@@ -1,5 +1,5 @@
 
-package com.example.BloodManagement.authentication.model;
+package com.example.BloodManagement.Authentication.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

@@ -1,5 +1,5 @@
 
-package com.example.BloodManagement.authentication.entity;
+package com.example.BloodManagement.Authentication.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
