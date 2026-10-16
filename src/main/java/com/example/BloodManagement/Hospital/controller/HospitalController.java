@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,19 +25,18 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
-    @PostMapping("/bloodrequest")
+
+    // ---------------------------------------
+    // 1. CREATE BLOOD REQUEST
+    // ---------------------------------------
+
+    @PostMapping("/blood-request")
     public ResponseEntity<BloodRequestResponse> createBloodRequest(
             @Valid @RequestBody BloodRequestModel request,
             HttpServletRequest httpRequest
     ) {
 
         HttpSession session = httpRequest.getSession(false);
-
-        if (session == null) {
-            throw new IllegalStateException(
-                    "Please login to create a blood request"
-            );
-        }
 
         BloodRequestResponse response =
                 hospitalService.createBloodRequest(request, session);
@@ -46,7 +46,92 @@ public class HospitalController {
                 .body(response);
     }
 
-    // Validation errors
+
+    // ---------------------------------------
+    // 2. VIEW MY BLOOD REQUESTS
+    // ---------------------------------------
+
+    @GetMapping("/blood-requests")
+    public ResponseEntity<List<BloodRequestResponse>> getMyBloodRequests(
+            HttpServletRequest httpRequest
+    ) {
+
+        HttpSession session = httpRequest.getSession(false);
+
+        return ResponseEntity.ok(
+                hospitalService.getMyBloodRequests(session)
+        );
+    }
+
+
+    // ---------------------------------------
+    // 3. VIEW ONE BLOOD REQUEST
+    // ---------------------------------------
+
+    @GetMapping("/blood-request/{id}")
+    public ResponseEntity<BloodRequestResponse> getBloodRequestById(
+            @PathVariable String id,
+            HttpServletRequest httpRequest
+    ) {
+
+        HttpSession session = httpRequest.getSession(false);
+
+        return ResponseEntity.ok(
+                hospitalService.getBloodRequestById(id, session)
+        );
+    }
+
+
+    // ---------------------------------------
+    // 4. UPDATE BLOOD REQUEST
+    // ---------------------------------------
+
+    @PutMapping("/blood-request/{id}")
+    public ResponseEntity<BloodRequestResponse> updateBloodRequest(
+            @PathVariable String id,
+            @Valid @RequestBody BloodRequestModel request,
+            HttpServletRequest httpRequest
+    ) {
+
+        HttpSession session = httpRequest.getSession(false);
+
+        return ResponseEntity.ok(
+                hospitalService.updateBloodRequest(
+                        id,
+                        request,
+                        session
+                )
+        );
+    }
+
+
+    // ---------------------------------------
+    // 5. DELETE BLOOD REQUEST
+    // ---------------------------------------
+
+    @DeleteMapping("/blood-request/{id}")
+    public ResponseEntity<Map<String, Object>> deleteBloodRequest(
+            @PathVariable String id,
+            HttpServletRequest httpRequest
+    ) {
+
+        HttpSession session = httpRequest.getSession(false);
+
+        String message =
+                hospitalService.deleteBloodRequest(id, session);
+
+        Map<String, Object> response = new LinkedHashMap<>();
+
+        response.put("success", true);
+        response.put("message", message);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    // ---------------------------------------
+    // VALIDATION ERRORS
+    // ---------------------------------------
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(
@@ -68,12 +153,13 @@ public class HospitalController {
         response.put("message", "Validation failed");
         response.put("errors", errors);
 
-        return ResponseEntity
-                .badRequest()
-                .body(response);
+        return ResponseEntity.badRequest().body(response);
     }
 
-    // Login errors
+
+    // ---------------------------------------
+    // LOGIN ERRORS
+    // ---------------------------------------
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<Map<String, Object>> handleLoginError(
@@ -86,7 +172,10 @@ public class HospitalController {
         );
     }
 
-    // Role errors
+
+    // ---------------------------------------
+    // ROLE ERRORS
+    // ---------------------------------------
 
     @ExceptionHandler(SecurityException.class)
     public ResponseEntity<Map<String, Object>> handleRoleError(
@@ -98,6 +187,27 @@ public class HospitalController {
                 ex.getMessage()
         );
     }
+
+
+    // ---------------------------------------
+    // REQUEST ERRORS
+    // ---------------------------------------
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleRequestError(
+            IllegalArgumentException ex
+    ) {
+
+        return errorResponse(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+    }
+
+
+    // ---------------------------------------
+    // COMMON ERROR RESPONSE
+    // ---------------------------------------
 
     private ResponseEntity<Map<String, Object>> errorResponse(
             HttpStatus status,

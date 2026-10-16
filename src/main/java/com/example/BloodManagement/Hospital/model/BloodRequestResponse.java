@@ -21,5 +21,8 @@ public class BloodRequestResponse {
 
     private Integer unit;
 
+    // NEW FIELD
+    private String priority;
+
     private LocalDateTime requestedAt;
 }

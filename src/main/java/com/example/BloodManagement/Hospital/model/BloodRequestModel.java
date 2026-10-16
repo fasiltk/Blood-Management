@@ -17,6 +17,18 @@ public class BloodRequestModel {
     private String bloodGroup;
 
     @NotNull(message = "Unit is required")
-    @Min(value = 1, message = "Unit must be at least 1")
+    @Min(
+            value = 1,
+            message = "Unit must be at least 1"
+    )
+    @Positive(message = "Unit must be a positive value")
     private Integer unit;
+
+    // NEW FIELD
+    @NotBlank(message = "Priority is required")
+    @Pattern(
+            regexp = "^[UN]$",
+            message = "Priority must be U (Urgent) or N (Normal)"
+    )
+    private String priority;
 }

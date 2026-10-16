@@ -33,7 +33,15 @@ public class BloodRequest {
     @Column(nullable = false)
     private Integer unit;
 
-    @Column(name = "requested_at", nullable = false, updatable = false)
+    // NEW COLUMN
+    @Column(name = "priority", length = 1, nullable = false)
+    private String priority;
+
+    @Column(
+            name = "requested_at",
+            nullable = false,
+            updatable = false
+    )
     private LocalDateTime requestedAt;
 
     @PrePersist
@@ -47,6 +55,9 @@ public class BloodRequest {
 
         if (requestedAt == null) {
             requestedAt = LocalDateTime.now();
+        }
+        if (priority == null){
+            priority = "N";
         }
     }
 }
